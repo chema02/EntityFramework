@@ -11,10 +11,11 @@ namespace WepApi1.Controllers
     public class ApuestasController : ApiController
     {
         // GET: api/Apuestas
-        public IEnumerable<Apuesta> Get()
+        public IEnumerable<ApuestaDTO> Get()
         {
             var repo = new ApuestasRepository();
-            List<Apuesta> apuestas= repo.Retrieve();
+           // List<Apuesta> apuestas= repo.Retrieve();
+            List<ApuestaDTO> apuestas = repo.RetrieveDTO();
             return apuestas;
 
         }
@@ -26,8 +27,11 @@ namespace WepApi1.Controllers
         }
 
         // POST: api/Apuestas
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Apuesta apuesta)
         {
+            var repo = new ApuestasRepository();
+            repo.Save(apuesta);
+
         }
 
         // PUT: api/Apuestas/5

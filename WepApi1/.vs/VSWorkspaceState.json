@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\WepApi1",
+    "\\WepApi1\\Controllers",
+    "\\WepApi1\\Models"
   ],
-  "SelectedNode": "\\WepApi1.sln",
+  "SelectedNode": "\\WepApi1\\Controllers\\ApuestasController.cs",
   "PreviewInSolutionExplorer": false
 }

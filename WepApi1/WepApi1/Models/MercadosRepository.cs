@@ -26,11 +26,11 @@ namespace WepApi1.Models
                 con.Open();
                 MySqlDataReader res = command.ExecuteReader();
                 Mercado m = null;
-                List<Mercado> mercados= new List<Mercado>();
+                List<Mercado> mercados = new List<Mercado>();
                 while (res.Read())
                 {
                     Debug.WriteLine("recuperamos: " + res.GetInt32(0) + " " + res.GetInt32(1) + " " + res.GetFloat(2) + " " + res.GetFloat(3) + " " + res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetInt32(6));
-                    m = new Mercado(res.GetInt32(0) , res.GetInt32(1) , res.GetFloat(2) , res.GetFloat(3) , res.GetFloat(4) ,res.GetInt32(5), res.GetInt32(6));
+                    m = new Mercado(res.GetInt32(0), res.GetInt32(1), res.GetFloat(2), res.GetFloat(3), res.GetFloat(4), res.GetInt32(5), res.GetInt32(6));
                     mercados.Add(m);
                 }
                 con.Close();
@@ -45,5 +45,35 @@ namespace WepApi1.Models
             }
 
         }
+        internal List<MercadoDTO> RetrieveDTO()
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from Mercados";
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                MercadoDTO m = null;
+                List<MercadoDTO> mercados = new List<MercadoDTO>();
+                while (res.Read())
+                {
+                    Debug.WriteLine("recuperamos: " + res.GetInt32(0) + " " + res.GetInt32(1) + " " + res.GetFloat(2) + " " + res.GetFloat(3) + " " + res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetInt32(6));
+                    m = new MercadoDTO(res.GetFloat(2), res.GetFloat(3), res.GetFloat(4));
+                    mercados.Add(m);
+                }
+                con.Close();
+                return mercados;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("se ha producido un error de conexión");
+                return null;
+
+
+            }
+        }
+      
+        
     }
 }

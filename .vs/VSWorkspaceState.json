@@ -4,8 +4,9 @@
     "\\WepApi1",
     "\\WepApi1\\WepApi1",
     "\\WepApi1\\WepApi1\\App_Start",
-    "\\WepApi1\\WepApi1\\Controllers"
+    "\\WepApi1\\WepApi1\\Controllers",
+    "\\WepApi1\\WepApi1\\Models"
   ],
-  "SelectedNode": "\\WepApi1\\WepApi1\\App_Start\\RouteConfig.cs",
+  "SelectedNode": "\\WepApi1\\WepApi1\\Models\\ApuestasRepository.cs",
   "PreviewInSolutionExplorer": false
 }

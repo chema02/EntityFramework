@@ -28,6 +28,21 @@ namespace WepApi1.Models
             Dinero_Over = dinero_Over;
             Dinero_Under = dinero_Under;
         }
+
+    }
+    public class MercadoDTO
+    {
+        public float Over_Under { get; set; }
+        public float Cuota_Over { get; set; }
+        public float Cuota_Under { get; set; }
+
+        public MercadoDTO( float over_Under,float cuota_Over, float cuota_Under)
+        {
+            Over_Under = over_Under;
+            Cuota_Over = cuota_Over;
+            Cuota_Under = cuota_Under;
+        }
+
     }
 
 
