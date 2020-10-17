@@ -11,11 +11,29 @@ namespace WepApi1.Controllers
     public class ApuestasController : ApiController
     {
         // GET: api/Apuestas
-        public IEnumerable<ApuestaDTO> Get()
+        
+        public IEnumerable<Apuesta> Get()
         {
             var repo = new ApuestasRepository();
-           // List<Apuesta> apuestas= repo.Retrieve();
-            List<ApuestaDTO> apuestas = repo.RetrieveDTO();
+            List<Apuesta> apuestas= repo.Retrieve();
+            //List<ApuestaDTO> apuestas = repo.RetrieveDTO();
+
+            return apuestas;
+
+        }
+        // GET: api/Apuestas?Email_Usuario=usuario & Id_Mercado=id
+        public IEnumerable<Apuesta> Get(string usuario , int id)
+        {
+            var repo = new ApuestasRepository();
+            List<Apuesta> apuestas= repo.RetrieveByUsuarioandId_mercado(usuario,id);
+            return apuestas;
+
+        }
+        // GET: api/Apuestas?Id_Mercado=id & Email_Usuario=usuario
+        public IEnumerable<Apuesta> GetEmail(string user,int id)
+        {
+            var repo = new ApuestasRepository();
+            List<Apuesta> apuestas = repo.RetrieveById_mercadoandEmail_Usuario(user,id);
             return apuestas;
 
         }
@@ -27,6 +45,7 @@ namespace WepApi1.Controllers
         }
 
         // POST: api/Apuestas
+        [Authorize(Roles ="Admin")]
         public void Post([FromBody]Apuesta apuesta)
         {
             var repo = new ApuestasRepository();

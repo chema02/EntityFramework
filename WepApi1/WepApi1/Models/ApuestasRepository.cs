@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -29,7 +30,7 @@ namespace WepApi1.Models
                 List<Apuesta> apuestas = new List<Apuesta>();
                 while (res.Read())
                 {
-                    Debug.WriteLine("recuperamos: " + res.GetInt32(0) + " " + res.GetString(1)
+                    Debug.WriteLine("recuperamosapuestas: " + res.GetInt32(0) + " " + res.GetString(1)
                                     + " " + res.GetInt32(2) + " " + res.GetString(3) + " " +
                                     res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetDateTime(6));
                     a = new Apuesta(res.GetInt32(0), res.GetString(1), res.GetInt32(2), res.GetString(3), res.GetFloat(4), res.GetInt32(5), res.GetDateTime(6));
@@ -47,6 +48,85 @@ namespace WepApi1.Models
             }
 
         }
+        internal List<Apuesta> RetrieveByUsuarioandId_mercado(string usuario,int id)
+        {
+            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+            culInfo.NumberFormat.NumberDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            culInfo.NumberFormat.PercentDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT apuestas.ID, apuestas.Tipo,apuestas.Cuota,apuestas.Dinero_apostado FROM apuestas,eventos WHERE Email_Usuario=@usuario AND ID_Mercado=@id";
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@usuario", usuario);
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                Apuesta a = null;
+                List<Apuesta> apuestas = new List<Apuesta>();
+                while (res.Read())
+                {
+                    Debug.WriteLine("recuperamos2: " + res.GetInt32(0) + " " + res.GetString(1)
+                                    + " " + res.GetInt32(2) + " " + res.GetString(3) + " " +
+                                    res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetDateTime(6));
+                    a = new Apuesta(res.GetInt32(0), res.GetString(1), res.GetInt32(2), res.GetString(3), res.GetFloat(4), res.GetInt32(5),res.GetDateTime(6));
+                    apuestas.Add(a);
+                }
+                con.Close();
+                return apuestas;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("se ha producido un error de conexión");
+                return null;
+
+
+            }
+
+        }
+        internal List<Apuesta> RetrieveById_mercadoandEmail_Usuario(string user, int id)
+        {
+            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+            culInfo.NumberFormat.NumberDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            culInfo.NumberFormat.PercentDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT mercados.Over_Under,apuestas.Tipo,apuestas.Cuota,apuestas.Dinero_apostado FROM apuestas,mercados WHERE Email_Usuario = '@user' AND ID_Mercado = '@id'";
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@user", user);
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                Apuesta a = null;
+                List<Apuesta> apuestas = new List<Apuesta>();
+                while (res.Read())
+                {
+                    Debug.WriteLine("recuperamos2: " + res.GetInt32(0) + " " + res.GetString(1)
+                                    + " " + res.GetInt32(2) + " " + res.GetString(3) + " " +
+                                    res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetDateTime(6));
+                    a = new Apuesta(res.GetInt32(0), res.GetString(1), res.GetInt32(2), res.GetString(3), res.GetFloat(4), res.GetInt32(5), res.GetDateTime(6));
+                    apuestas.Add(a);
+                }
+                con.Close();
+                return apuestas;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("se ha producido un error de conexión");
+                return null;
+
+
+            }
+
+        }
+
         internal List<ApuestaDTO> RetrieveDTO()
         {
             MySqlConnection con = Connect();
@@ -60,7 +140,7 @@ namespace WepApi1.Models
                 List<ApuestaDTO> apuestas = new List<ApuestaDTO>();
                 while (res.Read())
                 {
-                    Debug.WriteLine("recuperamos: " + res.GetInt32(0) + " " + res.GetString(1)
+                    Debug.WriteLine("recuperamosdto: " + res.GetInt32(0) + " " + res.GetString(1)
                                     + " " + res.GetInt32(2) + " " + res.GetString(3) + " " +
                                     res.GetFloat(4) + " " + res.GetInt32(5) + " " + res.GetDateTime(6));
                     a = new ApuestaDTO(res.GetString(1), res.GetInt32(2), res.GetString(3), res.GetFloat(4), res.GetInt32(5), res.GetDateTime(6));
@@ -92,7 +172,7 @@ namespace WepApi1.Models
                 MySqlCommand command1 = con.CreateCommand();
                 // command1.CommandText = "Selec * from Mercados WHERE ID = " + a.ID_Mercado + "";
                 int id = a.ID_Mercado;
-                command1.CommandText = "Selec * from mercados WHERE ID =@id";
+                command1.CommandText = "Select * from mercados WHERE ID =@id";
                 command1.Parameters.AddWithValue("@id", id);
                 MySqlDataReader reader = command1.ExecuteReader();
 

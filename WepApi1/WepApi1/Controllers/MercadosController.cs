@@ -11,11 +11,20 @@ namespace WepApi1.Controllers
     public class MercadosController : ApiController
     {
         // GET: api/Mercados
-        public IEnumerable<MercadoDTO> Get()
+        public IEnumerable<Mercado> Get()
         {
             var repo = new MercadosRepository();
-           // List<Mercado> mercados= repo.Retrieve();
-            List<MercadoDTO> mercados = repo.RetrieveDTO();
+            List<Mercado> mercados= repo.Retrieve();
+           // List<MercadoDTO> mercados = repo.RetrieveDTO();
+            return mercados;
+
+        }
+        // GET: api/Mercados?ID_evento=id & Over_Under=tipo
+        public IEnumerable<Mercado> Get(int id,float tipo)
+        {
+            var repo = new MercadosRepository();
+            // List<Mercado> mercados= repo.Retrieve();
+            List<Mercado> mercados = repo.RetrieveByTipoandId(id,tipo);
             return mercados;
 
         }
