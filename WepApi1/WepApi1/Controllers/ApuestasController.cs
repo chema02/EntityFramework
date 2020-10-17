@@ -30,6 +30,7 @@ namespace WepApi1.Controllers
 
         }
         // GET: api/Apuestas?Id_Mercado=id & Email_Usuario=usuario
+        [Authorize(Roles = "Admin")]
         public IEnumerable<Apuesta> GetEmail(string user,int id)
         {
             var repo = new ApuestasRepository();
@@ -45,7 +46,7 @@ namespace WepApi1.Controllers
         }
 
         // POST: api/Apuestas
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         public void Post([FromBody]Apuesta apuesta)
         {
             var repo = new ApuestasRepository();
