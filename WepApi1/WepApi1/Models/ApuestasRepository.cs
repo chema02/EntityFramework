@@ -97,7 +97,7 @@ namespace WepApi1.Models
             System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
             MySqlConnection con = Connect();
             MySqlCommand command = con.CreateCommand();
-            command.CommandText = "SELECT mercados.Over_Under,apuestas.Tipo,apuestas.Cuota,apuestas.Dinero_apostado FROM apuestas,mercados WHERE Email_Usuario = '@user' AND ID_Mercado = '@id'";
+            command.CommandText = "SELECT mercados.Over_Under,apuestas.Tipo,apuestas.Cuota,apuestas.Dinero_apostado FROM apuestas,mercados WHERE Email_Usuario = @user AND ID_Mercado = @id";
             command.Parameters.AddWithValue("@id", id);
             command.Parameters.AddWithValue("@user", user);
             try
